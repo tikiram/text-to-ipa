@@ -5,6 +5,9 @@ import PackageDescription
 
 let package = Package(
   name: "TextToIPA",
+  platforms: [
+    .macOS(.v14),
+  ],
   products: [
     // Products define the executables and libraries a package produces, making them visible to other packages.
     .library(
@@ -19,7 +22,7 @@ let package = Package(
       resources: [
         .process("Resources/cmudict/cmudict.dict"),
         // TODO: remove this later
-        .process("Resources/dev.cmudict.dict")
+        .process("Resources/dev.cmudict.dict"),
       ]),
     .testTarget(
       name: "TextToIPATests",

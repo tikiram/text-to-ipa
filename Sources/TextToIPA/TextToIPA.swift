@@ -1,36 +1,45 @@
 import Foundation
 
+public func loadDictionary() async throws -> [String: [PhonesWord]] {
+  // let url = Bundle.module.url(forResource: "cmudict", withExtension: "dict")
+  let url = Bundle.module.url(forResource: "dev.cmudict", withExtension: "dict")
+
+  guard let url else {
+    throw RuntimeError("Could not find dict file")
+  }
+
+  let content = try String(contentsOf: url, encoding: .utf8)
+
+  var dictionary: [String: [PhonesWord]] = [:]
+
+  var processError: Error?
+
+  content.enumerateLines { line, shouldStop in
+    do {
+      let result = try processCMUdictEntry(line)
+      if dictionary[result.name] == nil {
+        dictionary[result.name] = []
+      }
+      dictionary[result.name]!.append(PhonesWord(phones: result.phones))
+    } catch {
+      // This closure can't throw an error
+      shouldStop = true
+      processError = error
+    }
+  }
+
+  if let processError {
+    throw processError
+  }
+
+  return dictionary
+}
+
 public class TextToIPA {
   func load() throws {
 
-    // let url = Bundle.module.url(forResource: "cmudict", withExtension: "dict")
-    let url = Bundle.module.url(forResource: "dev.cmudict", withExtension: "dict")
-
-    guard let url else {
-      throw RuntimeError("Could not find dict file")
-    }
-
-    let content = try String(contentsOf: url, encoding: .utf8)
-
-    var dictionary = [String: String]()
-
-    content.enumerateLines { line, _ in
-      let parts = line.split(separator: " ").map(String.init)
-      if parts.isEmpty {
-        print("TODO")
-      }
-    }
   }
 
-}
-
-struct CMUdictEntry {
-  let name: String
-  let phones: [Phone]
-
-  func toIPA() throws -> String {
-    return try IPAText(phones).toString()
-  }
 }
 
 func processCMUdictEntry(_ entry: String) throws -> CMUdictEntry {
@@ -57,44 +66,4 @@ func phoneStringToPhone(phone: Substring) throws -> Phone {
   let stress = phone.suffix(from: phone.index(phone.startIndex, offsetBy: 2))
 
   return Phone(core: String(corePhone), stress: String(stress))
-
-}
-
-func phoneToIPA(_ phone: Phone) throws -> String {
-
-  guard let coreIpa = ipaEquivalent[phone.core] else {
-    throw RuntimeError("No IPA equivalent for \(phone.core)")
-  }
-
-  guard let stress = phone.stress else {
-    return coreIpa
-  }
-
-  guard let ipaStress = stressEquivalent[stress] else {
-    throw RuntimeError("No stress equivalent for \(stress)")
-  }
-
-  return coreIpa + ipaStress
-}
-
-func ARPAbetToIPA(phone: Substring) throws -> String {
-  // ARPAbet have a max of 2-letter elements
-  // then an stress or auxiliary symbol
-
-  let corePhone = phone.prefix(2)
-  guard let coreIpa = ipaEquivalent[String(corePhone)] else {
-    throw RuntimeError("No IPA equivalent for \(corePhone)")
-  }
-
-  guard phone.count > 2 else {
-    return coreIpa
-  }
-
-  let stress = phone.suffix(from: phone.index(phone.startIndex, offsetBy: 2))
-
-  guard let ipaStress = stressEquivalent[String(stress)] else {
-    throw RuntimeError("No stress equivalent for \(stress)")
-  }
-
-  return coreIpa + ipaStress
 }
