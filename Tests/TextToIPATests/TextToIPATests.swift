@@ -36,7 +36,28 @@ import Testing
     over multiple lines
     """
 
-  let lines = await processText(text)
+  let document = await processText(text)
 
-  print(lines)
+  print(document)
 }
+
+
+@Test func example3() async throws {
+
+  let text = """
+    This is some text...
+
+    over multiple lines
+    """
+
+  let document = await processText(text)
+  
+  let dictionary = try await loadDictionary()
+  let transcriber = Transcriber(dictionary)
+  
+  let transcriptionDocument = try document.transcribe(transcriber)
+
+  transcriptionDocument.printFullString()
+}
+
+

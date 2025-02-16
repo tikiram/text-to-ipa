@@ -1,8 +1,8 @@
 import Foundation
 
 public func loadDictionary() async throws -> [String: [PhonesWord]] {
-  // let url = Bundle.module.url(forResource: "cmudict", withExtension: "dict")
-  let url = Bundle.module.url(forResource: "dev.cmudict", withExtension: "dict")
+   let url = Bundle.module.url(forResource: "cmudict", withExtension: "dict")
+//  let url = Bundle.module.url(forResource: "dev.cmudict", withExtension: "dict")
 
   guard let url else {
     throw RuntimeError("Could not find dict file")

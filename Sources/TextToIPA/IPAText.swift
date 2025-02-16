@@ -1,4 +1,4 @@
-class IPAText {
+class IPAWord {
   private let phones: [Phone]
   init(_ phones: [Phone]) {
     self.phones = phones
@@ -8,9 +8,9 @@ class IPAText {
     var ipas: [String] = []
 
     for (index, phone) in phones.enumerated() {
-
       let stressMark = try phone.getStressMark()
-      if let stressMark {
+      let wordHasMultipleVowels = !(try onlyOneVowelInWord())
+      if let stressMark, !stressMark.isEmpty && wordHasMultipleVowels {
         let offset = try getStressOffset(currentIndex: index)
         ipas.insert(stressMark, at: ipas.count - offset)
       }
@@ -18,6 +18,12 @@ class IPAText {
     }
     return ipas
   }
+  
+  func onlyOneVowelInWord() throws -> Bool {
+    let vowelCount = try phones.count { try $0.isVowel() }
+    return vowelCount == 1
+  }
+  
   func toString() throws -> String {
     return try getComponents().joined()
   }

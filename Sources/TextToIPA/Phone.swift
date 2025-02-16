@@ -38,10 +38,6 @@ public struct Phone {
     guard let stressMark = stressEquivalent[stress] else {
       throw RuntimeError("No stress mark for \(stress)")
     }
-    guard !stressMark.isEmpty else {
-      // This is just a hack to not get an error with 0:""
-      return nil
-    }
     return stressMark
   }
 

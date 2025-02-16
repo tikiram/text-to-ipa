@@ -1,4 +1,4 @@
-public func processText(_ text: String) async -> [TextLine] {
+public func processText(_ text: String) async -> Document {
   var lines: [TextLine] = []
 
   text.enumerateLines { line, _ in
@@ -6,7 +6,7 @@ public func processText(_ text: String) async -> [TextLine] {
     lines.append(textLine)
   }
 
-  return lines
+  return Document(lines: lines)
 }
 
 func processLine(_ line: String) -> TextLine {
