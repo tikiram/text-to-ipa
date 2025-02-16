@@ -35,13 +35,6 @@ public func loadDictionary() async throws -> [String: [PhonesWord]] {
   return dictionary
 }
 
-public class TextToIPA {
-  func load() throws {
-
-  }
-
-}
-
 func processCMUdictEntry(_ entry: String) throws -> CMUdictEntry {
   let components = entry.split(separator: " ")
 

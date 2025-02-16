@@ -55,7 +55,7 @@ import Testing
   let dictionary = try await loadDictionary()
   let transcriber = Transcriber(dictionary)
   
-  let transcriptionDocument = try document.transcribe(transcriber)
+  let transcriptionDocument = try await document.transcribe(transcriber)
 
   transcriptionDocument.printFullString()
 }
