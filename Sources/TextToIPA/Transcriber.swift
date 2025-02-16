@@ -1,8 +1,8 @@
-class Transcriber {
+public class Transcriber {
 
   private let dictionary: [String: [PhonesWord]]
 
-  init(_ dictionary: [String: [PhonesWord]]) {
+  public init(_ dictionary: [String: [PhonesWord]]) {
     self.dictionary = dictionary
   }
 
