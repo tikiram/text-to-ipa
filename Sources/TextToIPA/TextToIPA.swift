@@ -10,11 +10,15 @@ public func loadDictionary() async throws -> [String: [PhonesWord]] {
 
   let content = try String(contentsOf: url, encoding: .utf8)
 
+  return try await loadDictionaryText(content)
+}
+
+func loadDictionaryText(_ text: String) async throws -> [String: [PhonesWord]] {
   var dictionary: [String: [PhonesWord]] = [:]
 
   var processError: Error?
 
-  content.enumerateLines { line, shouldStop in
+  text.enumerateLines { line, shouldStop in
     do {
       let result = try processCMUdictEntry(line)
       if dictionary[result.name] == nil {

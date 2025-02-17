@@ -41,7 +41,6 @@ import Testing
   print(document)
 }
 
-
 @Test func example3() async throws {
 
   let text = """
@@ -51,13 +50,40 @@ import Testing
     """
 
   let document = await processText(text)
-  
+
   let dictionary = try await loadDictionary()
-  let transcriber = Transcriber(dictionary)
-  
+  let alphabet = try await getAlphabetDictionary()
+
+  let transcriber = Transcriber(dictionary, alphabetDictionary: alphabet)
+
   let transcriptionDocument = try await document.transcribe(transcriber)
 
   transcriptionDocument.printFullString()
 }
 
+@Test func example4() async throws {
 
+  let alphabet = try await getAlphabetDictionary()
+
+  print(alphabet)
+}
+
+@Test func example5() async throws {
+
+  let text = """
+    The alphabet contains a b c and a great amount of other letters.
+    
+    The distance to mars is quite large.
+    """
+
+  let document = await processText(text)
+
+  let dictionary = try await loadDictionary()
+  let alphabet = try await getAlphabetDictionary()
+
+  let transcriber = Transcriber(dictionary, alphabetDictionary: alphabet)
+
+  let transcriptionDocument = try await document.transcribe(transcriber)
+
+  transcriptionDocument.printFullString()
+}
