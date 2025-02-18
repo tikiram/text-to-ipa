@@ -87,3 +87,25 @@ import Testing
 
   transcriptionDocument.printFullString()
 }
+
+@Test func example6() async throws {
+
+  let text = """
+    think about
+    one hour time takes
+    dedicating
+    productive
+    purpose
+    """
+
+  let document = await processText(text)
+
+  let dictionary = try await loadDictionary()
+  let alphabet = try await getAlphabetDictionary()
+
+  let transcriber = Transcriber(dictionary, alphabetDictionary: alphabet)
+
+  let transcriptionDocument = try await document.transcribe(transcriber)
+
+  transcriptionDocument.printFullString()
+}

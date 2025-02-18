@@ -14,8 +14,10 @@ public struct TranscriptionDocument: Codable {
     for line in transcriptionsMatrix {
       for component in line {
         for element in component {
-          
-          print("\(element.text): \(element.ipas)")
+          print("\(element.text)")
+          for ipa in element.ipas {
+            print("\t\t\(ipa.joined(separator: ""))")
+          }
         }
       }
     }

@@ -1,7 +1,7 @@
 
-let unstressedTable = [
+let unstressedTable: [String: String] = [
   "ʌ": "ə",
-  "ɪ": "ə",
+//  "ɪ": "ə",
 ]
 
 
@@ -17,7 +17,7 @@ let ipaEquivalent = [
   "D": "d",
   "DH": "ð",
   "EH": "ɛ",
-  "ER": "ɝ",  // The r-colored schwa can be analyzed phonemically as /ər/.
+  "ER": "əɹ",  //ɝ The r-colored schwa can be analyzed phonemically as /ər/.
   "EY": "eɪ",
   "F": "f",
   "G": "ɡ",
