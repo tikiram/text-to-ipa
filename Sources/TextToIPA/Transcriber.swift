@@ -31,8 +31,10 @@ public class Transcriber {
     //
     //      return phonesWords
     //    }
+    
+    let serializedWord = word.replacingOccurrences(of: "’", with: "'")
 
-    let phonesWords = dictionary[word.lowercased()] ?? []
+    let phonesWords = dictionary[serializedWord.lowercased()] ?? []
     return phonesWords
   }
 }

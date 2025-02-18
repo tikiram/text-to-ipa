@@ -91,11 +91,8 @@ import Testing
 @Test func example6() async throws {
 
   let text = """
-    think about
-    one hour time takes
-    dedicating
-    productive
-    purpose
+    I've
+    I’ve
     """
 
   let document = await processText(text)

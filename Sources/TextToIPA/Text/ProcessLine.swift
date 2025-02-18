@@ -57,13 +57,13 @@ class ProcessLine {
 }
 
 func isWordChar(_ char: Character) -> Bool {
-
-  if char == "-" {
+  
+  let symbols: [Character] = ["-", "'", "’"]
+  
+  if symbols.contains(char) {
     return true
   }
-  if char == "'" {
-    return true
-  }
+  
   if char >= "a" && char <= "z" {
     return true
   }
