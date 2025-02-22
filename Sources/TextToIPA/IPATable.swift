@@ -1,6 +1,7 @@
 
 let unstressedTable: [String: String] = [
   "ʌ": "ə",
+//  "i": "ə",
 //  "ɪ": "ə",
 ]
 

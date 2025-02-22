@@ -91,8 +91,9 @@ import Testing
 @Test func example6() async throws {
 
   let text = """
-    I've
-    I’ve
+    separate
+    a
+    with
     """
 
   let document = await processText(text)

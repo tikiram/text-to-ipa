@@ -10,9 +10,22 @@ public class Transcriber {
   }
 
   func getIPAs(word: String) throws -> [[String]] {
+    if word == "a" {
+      return [["ə"]]
+    }
+    if word == "A" {
+      return [["eɪ"]]
+    }
+    
     let phonesWords = getPhoneWords(word)
 
-    return try phonesWords.map { try $0.toIPAComponents() }
+    let ipas = try phonesWords.map { try $0.toIPAComponents() }
+
+    // TODO: move this to an extension? removeDuplicatesByKey
+    let result = ipas.reduce(into: [String: [String]]()) { result, element in
+      result[element.joined()] = element
+    }
+    return Array(result.values)
   }
 
   private func getPhoneWords(_ word: String) -> [PhonesWord] {
