@@ -18,7 +18,7 @@ let ipaEquivalent = [
   "D": "d",
   "DH": "ð",
   "EH": "ɛ",
-  "ER": "əɹ",  //ɝ The r-colored schwa can be analyzed phonemically as /ər/.
+  "ER": "ər",  //ɝ The r-colored schwa can be analyzed phonemically as /ər/.
   "EY": "eɪ",
   "F": "f",
   "G": "ɡ",
@@ -34,7 +34,7 @@ let ipaEquivalent = [
   "OW": "oʊ",
   "OY": "ɔɪ",
   "P": "p",
-  "R": "ɹ",
+  "R": "r", // r // ɹ
   "S": "s",
   "SH": "ʃ",
   "T": "t",
