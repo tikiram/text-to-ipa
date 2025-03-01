@@ -94,6 +94,7 @@ import Testing
     separate
     a
     with
+    Fragment
     """
 
   let document = await processText(text)

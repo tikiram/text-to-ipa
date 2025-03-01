@@ -18,18 +18,36 @@ class IPAWord {
     }
     return ipas
   }
-  
+
   func onlyOneVowelInWord() throws -> Bool {
     let vowelCount = try phones.count { try $0.isVowel() }
     return vowelCount == 1
   }
-  
+
   func toString() throws -> String {
     return try getComponents().joined()
   }
 
   private func getStressOffset(currentIndex index: Int) throws -> Int {
-    return try isPreviousPhoneConsonant(currentIndex: index) ? 1 : 0
+    let previousPhone = phones[safe: index - 1]
+
+    if try previousPhone?.isVowel() == true {
+      return 0
+    }
+
+    if previousPhone?.core != "R" {
+      return 1
+    }
+
+    guard let previousPreviousPhone = phones[safe: index - 2] else {
+      return 1
+    }
+
+    if ["B", "D", "F", "G", "K", "P", "T"].contains(previousPreviousPhone.core) {
+      return 2
+    }
+
+    return 1
   }
 
   private func isPreviousPhoneConsonant(currentIndex index: Int) throws -> Bool {
@@ -37,4 +55,11 @@ class IPAWord {
     return try previousPhone?.isConsonant() == true
   }
 
+}
+
+extension Collection {
+  // Returns the element at the specified index if it is within bounds, otherwise nil.
+  subscript(safe index: Index) -> Element? {
+    indices.contains(index) ? self[index] : nil
+  }
 }
