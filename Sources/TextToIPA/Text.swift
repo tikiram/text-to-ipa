@@ -1,4 +1,4 @@
-public func processText(_ text: String) async -> Document {
+func processText(_ text: String) async -> Document {
   var lines: [TextLine] = []
 
   text.enumerateLines { line, _ in

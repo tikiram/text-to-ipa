@@ -1,6 +1,6 @@
 import Foundation
 
-public func loadDictionary() async throws -> [String: [PhonesWord]] {
+func loadDictionary() async throws -> [String: [PhonesWord]] {
    let url = Bundle.module.url(forResource: "cmudict", withExtension: "dict")
 //  let url = Bundle.module.url(forResource: "dev.cmudict", withExtension: "dict")
 
