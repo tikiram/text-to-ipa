@@ -30,12 +30,16 @@ class IPAWord {
 
   private func getStressOffset(currentIndex index: Int) throws -> Int {
     let previousPhone = phones[safe: index - 1]
-
-    if try previousPhone?.isVowel() == true {
+    
+    guard let previousPhone else {
       return 0
     }
 
-    if previousPhone?.core != "R" {
+    if try previousPhone.isVowel() == true {
+      return 0
+    }
+
+    if previousPhone.core != "R" {
       return 1
     }
 
