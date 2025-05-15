@@ -6,7 +6,7 @@ public struct TextLine {
     return components.map { $0.toString() }.joined(separator: " ")
   }
   
-  func transcribe(_ transcriber: Transcriber) throws -> [[Transcription]] {
+  func transcribe(_ transcriber: IPATranscriber) throws -> [[Transcription]] {
     return try components.map{ try $0.transcribe(transcriber) }
   }
 }

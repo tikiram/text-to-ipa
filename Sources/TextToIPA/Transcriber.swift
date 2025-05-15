@@ -2,9 +2,9 @@ enum TranscriberError: Error {
   case dictionaryNotLoaded
 }
 
-public class Transcriber {
+final public class IPATranscriber: Sendable {
 
-  private var dictionary: [String: [PhonesWord]]
+  private let dictionary: [String: [PhonesWord]]
 
   public init(dictionary: [String: [PhonesWord]]) {
     self.dictionary = dictionary

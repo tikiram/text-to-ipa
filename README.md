@@ -16,8 +16,8 @@ dependencies: [
 ## Transcribe
 
 ```swift
-    let transcriber = Transcriber()
-    try await transcriber.load()
+    let ipaLoader = IPALoader();
+    let transcriber = try await ipaLoader.load()
     
     let text = "Hello world!"
     

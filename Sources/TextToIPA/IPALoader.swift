@@ -1,8 +1,8 @@
 public class IPALoader {
 
-  public func load() async throws -> Transcriber {
+  public func load() async throws -> IPATranscriber {
     let dictionary = try await loadDictionary()
 
-    return Transcriber(dictionary: dictionary)
+    return IPATranscriber(dictionary: dictionary)
   }
 }

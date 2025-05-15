@@ -1,7 +1,7 @@
 public struct Document {
   let lines: [TextLine]
 
-  public func transcribe(_ transcriber: Transcriber) async throws -> TranscriptionDocument {
+  public func transcribe(_ transcriber: IPATranscriber) async throws -> TranscriptionDocument {
     let transcriptionsMatrix = try lines.map { try $0.transcribe(transcriber) }
     return TranscriptionDocument(transcriptionsMatrix: transcriptionsMatrix)
   }

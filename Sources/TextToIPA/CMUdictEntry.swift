@@ -7,7 +7,7 @@ struct CMUdictEntry {
   }
 }
 
-public struct PhonesWord {
+public struct PhonesWord: Sendable {
   let phones: [Phone]
 
   func toString() -> String {

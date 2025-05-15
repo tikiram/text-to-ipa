@@ -1,4 +1,4 @@
-public struct Phone {
+public struct Phone: Sendable {
   let core: String
   let stress: String?
 

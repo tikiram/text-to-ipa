@@ -7,7 +7,7 @@ struct Element {
   }
 
   // TODO: receive previous and next Element
-  func transcribe(_ transcriber: Transcriber) throws -> Transcription {
+  func transcribe(_ transcriber: IPATranscriber) throws -> Transcription {
     let ipas = try transcriber.getIPAs(word: text)
     return Transcription(text: text, isWord: isWord, ipas: ipas)
   }
