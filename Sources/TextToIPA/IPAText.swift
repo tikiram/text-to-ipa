@@ -1,3 +1,9 @@
+
+private let consonantBlends = [
+  "R": ["B", "D", "F", "G", "K", "P", "T"],
+  "L": ["K"]
+]
+
 class IPAWord {
   private let phones: [Phone]
   init(_ phones: [Phone]) {
@@ -35,11 +41,11 @@ class IPAWord {
       return 0
     }
 
-    if try previousPhone.isVowel() == true {
+    if try previousPhone.isVowel() {
       return 0
     }
-
-    if previousPhone.core != "R" {
+    
+    guard let blend = consonantBlends[previousPhone.core] else {
       return 1
     }
 
@@ -47,7 +53,7 @@ class IPAWord {
       return 1
     }
 
-    if ["B", "D", "F", "G", "K", "P", "T"].contains(previousPreviousPhone.core) {
+    if blend.contains(previousPreviousPhone.core) {
       return 2
     }
 

@@ -1,19 +1,15 @@
-
 enum TranscriberError: Error {
-    case dictionaryNotLoaded
+  case dictionaryNotLoaded
 }
 
 public class Transcriber {
 
-  private var dictionary: [String: [PhonesWord]]?
+  private var dictionary: [String: [PhonesWord]]
 
-  public init() {
+  public init(dictionary: [String: [PhonesWord]]) {
+    self.dictionary = dictionary
   }
-  
-  public func load() async throws {
-    dictionary = try await loadDictionary()
-  }
-  
+
   public func parse(_ text: String) async throws -> TranscriptionDocument {
     let document = await processText(text)
     return try await document.transcribe(self)
@@ -39,10 +35,7 @@ public class Transcriber {
   }
 
   private func getPhoneWords(_ word: String) throws -> [PhonesWord] {
-    guard let dictionary else {
-      throw TranscriberError.dictionaryNotLoaded
-    }
-    
+
     let serializedWord = word.replacingOccurrences(of: "’", with: "'")
     let phonesWords = dictionary[serializedWord.lowercased()] ?? []
     return phonesWords

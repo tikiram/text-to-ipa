@@ -71,10 +71,24 @@ import Testing
 
     So go out there. Do something great. Face everything like a winner. Expose yourself like a king — bold and unafraid.
     """
-  
-  let transcriber = Transcriber()
-  try await transcriber.load()
-  
+
+  let ipaLoader = IPALoader()
+  let transcriber = try await ipaLoader.load()
+
+  let document = try await transcriber.parse(text)
+
+  document.printFullString()
+}
+
+@Test func example7() async throws {
+
+  let text = """
+    classes
+    """
+
+  let ipaLoader = IPALoader()
+  let transcriber = try await ipaLoader.load()
+
   let document = try await transcriber.parse(text)
 
   document.printFullString()
