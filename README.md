@@ -24,6 +24,10 @@ dependencies: [
     let document = try await transcriber.parse(text)    
 ```
 
+##
+
+> `/` are used for phonemic transcription, while symbols enclosed in square brackets `[ ]` are used for phonetic transcription
+
 
 ## TODOs
 

@@ -41,7 +41,7 @@ public struct IPAPhone: Sendable {
     return stressMark
   }
 
-  func getIpa() throws -> String {
+  func getTranscription() throws -> String {
     guard let coreIpa = ipaEquivalent[core] else {
       throw RuntimeError("No IPA equivalente for \(core)")
     }

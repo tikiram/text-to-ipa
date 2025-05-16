@@ -15,33 +15,25 @@ func loadDictionary() async throws -> IPADictionary {
   return IPADictionary(ipaWords: ipaWords)
 }
 
-func processCMUDicEntries(_ text: String, _ action: @escaping (String, [IPATranscription]) -> Void)
-  throws
-{
-  var previousName: String = ""
-  var transcriptions: [IPATranscription] = []
-
-  try text.processLines { line in
-    let result = try processCMUdictEntry(line)
-
-    if result.name != previousName {
-      previousName = result.name
-      action(previousName, transcriptions)
-      transcriptions = []
-    }
-    transcriptions.append(IPATranscription(phones: result.phones))
-  }
-}
-
-private func loadDictionaryText(_ text: String) async throws -> [String: IPAWord] {
-  var ipaWords: [String: IPAWord] = [:]
+private func loadDictionaryText(_ text: String) async throws -> [String: [[String]]] {
+  var ipaWords: [String: [[String]]] = [:]
 
   try processCMUDicEntries(text) { name, transcriptions in
-    ipaWords[name] = IPAWord(name: name, transcriptions: transcriptions)
+    let uniqueTranscriptions = try transcriptions.removeDuplicatedUsingKey { try $0.toString() }
+    ipaWords[name] = try uniqueTranscriptions.map { try $0.getElements() }
   }
 
   return ipaWords
 }
+
+  func getTranscriptionTexts(_ word: String) throws -> [[String]] {
+    let serializedWord = word.replacingOccurrences(of: "’", with: "'")
+    let ipaWord = ipaWords[serializedWord.lowercased()]
+    let transcriptions = ipaWord?.transcriptions ?? []
+    let uniqueTranscriptions = try transcriptions.removeDuplicatedUsingKey { try $0.toString() }
+    return try uniqueTranscriptions.map { try $0.getElements() }
+  }
+
 
 private struct CMUdictEntry {
   let name: String
@@ -76,4 +68,22 @@ private func phoneStringToPhone(phone: Substring) throws -> IPAPhone {
   let stress = phone.suffix(from: phone.index(phone.startIndex, offsetBy: 2))
 
   return IPAPhone(core: String(corePhone), stress: String(stress))
+}
+
+func processCMUDicEntries(_ text: String, _ action: @escaping (String, [IPATranscription]) -> Void)
+  throws
+{
+  var previousName: String = ""
+  var transcriptions: [IPATranscription] = []
+
+  try text.processLines { line in
+    let result = try processCMUdictEntry(line)
+
+    if result.name != previousName {
+      previousName = result.name
+      action(previousName, transcriptions)
+      transcriptions = []
+    }
+    transcriptions.append(IPATranscription(phones: result.phones))
+  }
 }
