@@ -1,11 +1,11 @@
 struct IPADictionary {
-  private let ipaWords: [String: [[String]]]
+  private let entries: [String: [[String]]]
 
   init(ipaWords: [String: [[String]]]) {
-    self.ipaWords = ipaWords
+    self.entries = ipaWords
   }
 
-  func getTranscriptionTexts(_ word: String) throws -> [[String]] {
+  func getTranscriptionTexts(_ word: String) -> [[String]] {
     // TODO: check how to handle new words
     if word == "a" {
       return [["ə"]]
@@ -15,7 +15,6 @@ struct IPADictionary {
     }
 
     let serializedWord = word.replacingOccurrences(of: "’", with: "'")
-    return ipaWords[serializedWord.lowercased()] ?? []
+    return entries[serializedWord.lowercased()] ?? []
   }
 }
-

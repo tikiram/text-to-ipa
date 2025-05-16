@@ -1,7 +1,7 @@
 extension String {
-  func toTextTree() -> TextTree {
-    let textMaker = TextTreeMaker()
-    self.processElements(textMaker)
+  func toEnglishTextTree() -> TextTree {
+    let textMaker = EnglishTextTreeMaker()
+    self.processEnglishElements(textMaker)
     return TextTree(lines: textMaker.lines)
   }
 }

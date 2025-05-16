@@ -1,4 +1,4 @@
-class TextTreeMaker: StringElementsListener {
+class EnglishTextTreeMaker: StringElementsListener {
   private(set) var lines: [TextLine] = []
   private var islands: [TextIsland] = []
   private var elements: [TextElement] = []

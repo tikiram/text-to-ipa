@@ -1,4 +1,4 @@
-public struct IPATranscription: Sendable {
+struct IPATranscription {
   private let phones: [IPAPhone]
 
   init(phones: [IPAPhone]) {

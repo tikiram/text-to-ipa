@@ -5,7 +5,8 @@ enum CutType {
 }
 
 extension String {
-  func processElements(_ listener: StringElementsListener) {
+  /// listen to english elements
+  func processEnglishElements(_ listener: StringElementsListener) {
 
     var chars: [Character] = []
 
@@ -40,6 +41,9 @@ extension String {
   }
 }
 
+// This depends on the language, 
+// probably StringElementsListener can provide these values, by
+// doing this the StringElementsListener name should be changed
 func isWordChar(_ char: Character) -> Bool {
 
   let symbols: [Character] = ["-", "'", "’"]

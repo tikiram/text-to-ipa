@@ -15,13 +15,13 @@ dependencies: [
 
 ## Transcribe
 
-```swift
-    let ipaLoader = IPALoader();
-    let transcriber = try await ipaLoader.load()
-    
-    let text = "Hello world!"
-    
-    let document = try await transcriber.parse(text)    
+```swift  
+  let text = "Hello world!"
+  
+  let transcriber = try await loadTranscriber()
+  let results = try transcriber.parse(text)
+
+  print(results)
 ```
 
 ##

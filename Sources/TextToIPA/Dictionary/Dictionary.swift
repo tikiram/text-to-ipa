@@ -1,8 +1,7 @@
 import Foundation
 
-func loadDictionary() async throws -> IPADictionary {
+func loadIPADictionary() async throws -> IPADictionary {
   let url = Bundle.module.url(forResource: "cmudict", withExtension: "dict")
-  //  let url = Bundle.module.url(forResource: "dev.cmudict", withExtension: "dict")
 
   guard let url else {
     throw RuntimeError("Could not find dict file")
@@ -26,22 +25,29 @@ private func loadDictionaryText(_ text: String) async throws -> [String: [[Strin
   return ipaWords
 }
 
-  func getTranscriptionTexts(_ word: String) throws -> [[String]] {
-    let serializedWord = word.replacingOccurrences(of: "’", with: "'")
-    let ipaWord = ipaWords[serializedWord.lowercased()]
-    let transcriptions = ipaWord?.transcriptions ?? []
-    let uniqueTranscriptions = try transcriptions.removeDuplicatedUsingKey { try $0.toString() }
-    return try uniqueTranscriptions.map { try $0.getElements() }
-  }
-
-
 private struct CMUdictEntry {
   let name: String
   let phones: [IPAPhone]
+}
 
-  // func toIPA() throws -> String {
-  //   return try IPAWord(phones).toString()
-  // }
+func processCMUDicEntries(
+  _ text: String, _ action: @escaping (String, [IPATranscription]) throws -> Void
+)
+  throws
+{
+  var previousName: String = ""
+  var transcriptions: [IPATranscription] = []
+
+  try text.processLines { line in
+    let result = try processCMUdictEntry(line)
+
+    if result.name != previousName {
+      previousName = result.name
+      try action(previousName, transcriptions)
+      transcriptions = []
+    }
+    transcriptions.append(IPATranscription(phones: result.phones))
+  }
 }
 
 private func processCMUdictEntry(_ entry: String) throws -> CMUdictEntry {
@@ -49,7 +55,10 @@ private func processCMUdictEntry(_ entry: String) throws -> CMUdictEntry {
 
   let name = components[0].split(separator: "(")[0]
 
-  let stringPhones = components.dropFirst()
+  // we remove the name and the possible comment
+  // aalborg AO1 L B AO0 R G # place, danish
+  let stringPhones = components.dropFirst().prefix { !$0.contains("#") }
+
   let phones = try stringPhones.map(phoneStringToPhone)
 
   return CMUdictEntry(name: String(name), phones: phones)
@@ -68,22 +77,4 @@ private func phoneStringToPhone(phone: Substring) throws -> IPAPhone {
   let stress = phone.suffix(from: phone.index(phone.startIndex, offsetBy: 2))
 
   return IPAPhone(core: String(corePhone), stress: String(stress))
-}
-
-func processCMUDicEntries(_ text: String, _ action: @escaping (String, [IPATranscription]) -> Void)
-  throws
-{
-  var previousName: String = ""
-  var transcriptions: [IPATranscription] = []
-
-  try text.processLines { line in
-    let result = try processCMUdictEntry(line)
-
-    if result.name != previousName {
-      previousName = result.name
-      action(previousName, transcriptions)
-      transcriptions = []
-    }
-    transcriptions.append(IPATranscription(phones: result.phones))
-  }
 }
