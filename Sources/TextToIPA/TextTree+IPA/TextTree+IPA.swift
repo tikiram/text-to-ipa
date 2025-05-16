@@ -1,4 +1,4 @@
-public struct TResult: Codable {
+public struct TResult: Sendable, Codable {
   let text: String
   let transcriptions: [[String]]
 
