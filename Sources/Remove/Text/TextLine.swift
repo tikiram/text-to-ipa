@@ -1,5 +1,5 @@
 
-public struct TextLine {
+public struct TextLine2 {
   let components: [TextComponent]
 
   func toString() -> String {

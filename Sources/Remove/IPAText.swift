@@ -4,7 +4,7 @@ private let consonantBlends = [
   "L": ["K"]
 ]
 
-class IPAWord {
+class IPAWord2 {
   private let phones: [Phone]
   init(_ phones: [Phone]) {
     self.phones = phones
