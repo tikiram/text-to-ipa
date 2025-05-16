@@ -1,7 +1,5 @@
-
 import Foundation
 
-// TODO: we can use vapor-utils
 public struct RuntimeError: LocalizedError {
   let description: String
 

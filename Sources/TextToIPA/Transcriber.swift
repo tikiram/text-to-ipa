@@ -1,43 +1,18 @@
-enum TranscriberError: Error {
-  case dictionaryNotLoaded
+public func loadTranscriber() async throws -> IPATranscriber {
+  let dictionary = try await loadIPADictionary()
+
+  return IPATranscriber(dictionary)
 }
 
-final public class IPATranscriber: Sendable {
+public struct IPATranscriber {
+  private let dictionary: IPADictionary
 
-  private let dictionary: [String: [PhonesWord]]
-
-  public init(dictionary: [String: [PhonesWord]]) {
+  init(_ dictionary: IPADictionary) {
     self.dictionary = dictionary
   }
 
-  public func parse(_ text: String) async throws -> TranscriptionDocument {
-    let document = await processText(text)
-    return try await document.transcribe(self)
-  }
-
-  public func getIPAs(word: String) throws -> [[String]] {
-    if word == "a" {
-      return [["ə"]]
-    }
-    if word == "A" {
-      return [["eɪ"]]
-    }
-
-    let phonesWords = try getPhoneWords(word)
-
-    let ipas = try phonesWords.map { try $0.toIPAComponents() }
-
-    // TODO: move this to an extension? removeDuplicatesByKey
-    let result = ipas.reduce(into: [String: [String]]()) { result, element in
-      result[element.joined()] = element
-    }
-    return Array(result.values)
-  }
-
-  private func getPhoneWords(_ word: String) throws -> [PhonesWord] {
-
-    let serializedWord = word.replacingOccurrences(of: "’", with: "'")
-    let phonesWords = dictionary[serializedWord.lowercased()] ?? []
-    return phonesWords
+  public func parse(_ text: String) throws -> [[[TResult]]] {
+    let textTree = text.toEnglishTextTree()
+    return try textTree.transcribe(dictionary)
   }
 }
