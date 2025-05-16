@@ -4,7 +4,7 @@ public func loadTranscriber() async throws -> IPATranscriber {
   return IPATranscriber(dictionary)
 }
 
-public struct IPATranscriber {
+public struct IPATranscriber: Sendable {
   private let dictionary: IPADictionary
 
   init(_ dictionary: IPADictionary) {
