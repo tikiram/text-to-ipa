@@ -79,6 +79,20 @@ import Testing
   print(results)
 }
 
+
+@Test func example7() async throws {
+
+  let text = """
+    I want water
+    """
+
+  let transcriber = try await loadTranscriber()
+
+  let results = try transcriber.parse(text)
+
+  print(results)
+}
+
 // @Test func example7() async throws {
 
 //   let text = """
@@ -96,8 +110,7 @@ import Testing
 @Test func example1() async throws {
 
   let text = """
-    yourself with.
-    that day:
+    I want water
     """
 
   let textTree = text.toEnglishTextTree()

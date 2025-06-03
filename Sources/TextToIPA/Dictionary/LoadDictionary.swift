@@ -42,8 +42,8 @@ func processCMUDicEntries(
     let result = try processCMUdictEntry(line)
 
     if result.name != previousName {
-      previousName = result.name
       try action(previousName, transcriptions)
+      previousName = result.name
       transcriptions = []
     }
     transcriptions.append(IPATranscription(phones: result.phones))
